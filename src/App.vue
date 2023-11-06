@@ -1,47 +1,58 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <div class="container">
+    <h1 class="display-4">Text Summarizer</h1>
+    <div class="form-group">
+      <label for="inputText">Enter text to summarize:</label>
+      <textarea class="form-control" v-model="inputText" id="inputText" rows="6" placeholder="Enter text"></textarea>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+    <button class="btn btn-primary" @click="summarizeText">Summarize</button>
+    <div v-if="summary" class="mt-4">
+      <h2 class="h4">Summary:</h2>
+      <p>{{ summary }}</p>
+    </div>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
+<script>
+import axios from 'axios';
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+export default {
+  data() {
+    return {
+      inputText: '',
+      summary: null,
+    };
+  },
+  methods: {
+    summarizeText() {
+      const options = {
+        method: 'POST',
+        url: 'https://api.cohere.ai/v1/summarize',
+        headers: {
+          accept: 'application/json',
+          'content-type': 'application/json',
+          authorization: 'Bearer p3hMtWIDy3omAURlMmeO6DTzVFugTA0L5zN219JJ',
+        },
+        data: {
+          text: this.inputText,
+          length: 'medium',
+          format: 'paragraph',
+          model: 'command',
+          extractiveness: 'low',
+          temperature: 0.3,
+          language_code: 'fr',
+        },
+      };
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
+      axios
+        .request(options)
+        .then((response) => {
+          this.summary = response.data.summary;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+  },
+};
+</script>
