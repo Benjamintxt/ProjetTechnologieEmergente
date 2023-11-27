@@ -42,3 +42,11 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+technoemergentes/linux/flutter/generated_plugin_registrant.cc
+technoemergentes/linux/flutter/generated_plugin_registrant.h
+technoemergentes/linux/flutter/generated_plugins.cmake
+.gitignore
+technoemergentes/windows/flutter/generated_plugin_registrant.cc
+technoemergentes/windows/flutter/generated_plugin_registrant.h
+technoemergentes/windows/flutter/generated_plugins.cmake
