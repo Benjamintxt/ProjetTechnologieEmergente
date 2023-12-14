@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "563095351967",
+    "project_id": "projettechnoemergentes",
+    "storage_bucket": "projettechnoemergentes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563095351967:android:e77a52d7bae6b20a7568aa",
+        "android_client_info": {
+          "package_name": "com.example.technoEmergente"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjG0Q0CeFqh8jbdhEyixO57BZPjPlHeas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:technoemergentes/pages/classification_page.dart';
+import 'package:technoemergentes/services/firestoreService.dart';
 
 class CustomerSupportPage extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
   Future<void> classifyText(String text) async {
     const apiKey = 'nWrwm3g8q4ZIWzDzCQZTbup9RCt87oFsu7yLt7XB'; 
     const apiUrl = 'https://api.cohere.ai/v1/classify';
-    final model = 'embed-multilingual-v3.0';
+    const model = 'embed-multilingual-light-v3.0';
 
     final examples = [
       {"text": "Dégradation des espaces publics dans le quartier", "label": "signalement urbain"},
@@ -60,10 +61,11 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
     final response = await http.post(
       Uri.parse(apiUrl),
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $apiKey',
       },
-      body: jsonEncode(requestBody),
+      body: (utf8.encode(jsonEncode(requestBody))),
+
     );
 
     if (response.statusCode == 200) {
@@ -71,7 +73,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
       print(data);
       final results = data['results'];
       setState(() {
-  _results = List<Map<String, dynamic>>.from(data['classifications']);
+      _results = List<Map<String, dynamic>>.from(data['classifications']);
     });
     } else {
       // Handle error
@@ -79,6 +81,8 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
       print('Response body: ${response.body}');
     }
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +105,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
                 final inputText = _textInputController.text.trim();
                 if (inputText.isNotEmpty) {
                   await classifyText(inputText);
+                  
                 }
               },
               child: Text('Submit Request'),
@@ -113,6 +118,8 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
                 itemBuilder: (context, index) {
                   final result = _results[index];
                   final inputText = result['input'];
+                  
+                  FirestoreService().addDocument(inputText, result['prediction']);
 
                   return ListTile(
                     title: Text(inputText),
