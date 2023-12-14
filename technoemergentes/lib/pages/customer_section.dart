@@ -69,7 +69,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
     );
 
     if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
+      final Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
       print(data);
       final results = data['results'];
       setState(() {
