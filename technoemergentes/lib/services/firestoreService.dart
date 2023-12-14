@@ -11,10 +11,11 @@ class FirestoreService {
     return querySnapshot.docs;
   }
 
-  Future<void> addDocument(String inputText, dynamic prediction) async {
+  Future<void> addDocument(String inputText, dynamic prediction, String importanceLevel) async {
     Map<String, dynamic> data = {
       'demande': inputText,
       'label': prediction,
+      'typeUrgence': importanceLevel,
     };
 
     await _firestore.collection('demandes').add(data);

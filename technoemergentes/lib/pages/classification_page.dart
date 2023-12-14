@@ -35,6 +35,20 @@ class _ClassificationPageState extends State<ClassificationPage> {
     setState(() {});
   }
 
+  Color _getLabelColor(String label) {
+    switch (label) {
+      case 'Très urgent':
+        return Colors.red;
+      case 'Urgent':
+        return Colors.orange;
+      case 'Peu urgent':
+        return Colors.green;
+      
+      default:
+        return Colors.black;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,15 +90,16 @@ class _ClassificationPageState extends State<ClassificationPage> {
                 final complaints = _complaintsByLabel[label] ?? [];
                 final complaint = complaints[index].data() as Map<String, dynamic>;
                 final inputText = complaint['demande'];
-                final prediction = complaint['label'];
+                final importanceLevel = complaint['typeUrgence'];
 
                 return Card(
+                  color: _getLabelColor(importanceLevel),
                   child: ListTile(
                     title: Text('Demande ${index + 1}'),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Text: $inputText'),
+                        Text('$inputText'),
                       ],
                     ),
                   ),
