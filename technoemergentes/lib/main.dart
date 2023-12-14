@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:technoemergentes/firebase_options.dart';
 import 'package:technoemergentes/pages/classification_page.dart';
 import 'package:technoemergentes/pages/customer_section.dart';
+import 'package:technoemergentes/pages/processed_demand_page.dart';
 
 
 
@@ -39,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _widgetOptions = <Widget>[
     CustomerSupportPage(),
     ClassificationPage(),
+    ProcessedDemandPage(),
   ];
 
   @override
@@ -67,9 +69,17 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             ListTile(
               leading: Icon(Icons.rate_review),
-              title: Text('Classification review'),
+              title: Text('Classification des demandes'),
               onTap: () {
                 _selectNavigationItem(1);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.done),
+              title: Text('Demandes traitées'),
+              onTap: () {
+                _selectNavigationItem(2);
                 Navigator.pop(context);
               },
             ),

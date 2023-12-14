@@ -108,7 +108,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
       {"text": "Marquages routiers effacés près de l'école primaire", "label": "Très urgent"},
       {"text": "Création d'une aire de jeux pour enfants dans le parc", "label": "Peu urgent"},
       {"text": "Éclairage défectueux dans le quartier commercial", "label": "Urgent"},
-      {"text": "Route bloquée en raison de travaux de réparation", "label": "Urgent"},
+      {"text": "Route bloquée en raison de travaux de réparation", "label": "Très urgent"},
       {"text": "Suggestions pour la rénovation du marché local", "label": "Peu urgent"},
       {"text": "Décharge sauvage près de la rivière", "label": "Peu urgent"},
       {"text": "Manque de passages piétons sécurisés près des écoles", "label": "Urgent"},

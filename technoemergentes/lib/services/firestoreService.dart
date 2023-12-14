@@ -12,13 +12,22 @@ class FirestoreService {
   }
 
   Future<void> addDocument(String inputText, dynamic prediction, String importanceLevel) async {
+    String id = _firestore.collection('demandes').doc().id;
     Map<String, dynamic> data = {
+      'id' : id,
       'demande': inputText,
       'label': prediction,
       'typeUrgence': importanceLevel,
+      'demandeTraitee': false,
     };
 
-    await _firestore.collection('demandes').add(data);
+    await _firestore.collection('demandes').doc(id).set(data);
+  }
+
+  Future<void> demandeTraitee(String documentId) async {
+    await _firestore.collection('demandes').doc(documentId).update({
+      'demandeTraitee': true,
+    });
   }
 
 }
