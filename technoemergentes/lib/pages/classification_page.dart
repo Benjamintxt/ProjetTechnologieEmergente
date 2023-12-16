@@ -32,7 +32,31 @@ class _ClassificationPageState extends State<ClassificationPage> {
       _complaintsByLabel[label]!.add(complaint);
     }
 
+    complaints.sort((a, b) {
+      final importanceA = a['typeUrgence'];
+      final importanceB = b['typeUrgence'];
+      return _compareImportance(importanceA, importanceB);
+    });
+
     setState(() {});
+  }
+
+  int _compareImportance(String levelA, String levelB) {
+    // Define the order of importance levels
+    final order = {
+      'Très urgent': 0,
+      'Urgent': 1,
+      'Peu urgent': 2,
+    };
+
+    return order[levelA]!.compareTo(order[levelB]!);
+  }
+  
+  Future<void> _markComplaintAsProcessed(DocumentSnapshot complaint) async {
+    // Set 'demandeTraitee' field to true in Firestore
+    await _firestoreService.demandeTraitee(complaint.id);
+    // Reload complaints after updating Firestore
+    await _loadComplaints();
   }
 
   Color _getLabelColor(String label) {
@@ -45,7 +69,7 @@ class _ClassificationPageState extends State<ClassificationPage> {
         return Colors.green;
       
       default:
-        return Colors.black;
+        return Colors.grey;
     }
   }
 
@@ -63,6 +87,7 @@ class _ClassificationPageState extends State<ClassificationPage> {
               if (newValue != null) {
                 setState(() {
                   _selectedLabel = newValue;
+                  _loadComplaints();
                 });
               }
             },
@@ -91,10 +116,16 @@ class _ClassificationPageState extends State<ClassificationPage> {
                 final complaint = complaints[index].data() as Map<String, dynamic>;
                 final inputText = complaint['demande'];
                 final importanceLevel = complaint['typeUrgence'];
+                final demandeTraitee = complaint['demandeTraitee'] ?? false;
+
+                if (demandeTraitee) {
+                  return SizedBox.shrink();
+                }
 
                 return Card(
                   color: _getLabelColor(importanceLevel),
                   child: ListTile(
+                    key: ValueKey(complaints[index].id),
                     title: Text('Demande ${index + 1}'),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,6 +133,34 @@ class _ClassificationPageState extends State<ClassificationPage> {
                         Text('$inputText'),
                       ],
                     ),
+                     onTap: () async {
+                      // Show a popup to ask if the complaint has been processed
+                      bool isProcessed = await showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('La demande a-t-elle été traitée ?'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(false);
+                                },
+                                child: Text('Non'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(true);
+                                },
+                                child: Text('Oui'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      if (isProcessed) {
+                        await _markComplaintAsProcessed(complaints[index]);
+                      }
+                     }
                   ),
                 );
               },

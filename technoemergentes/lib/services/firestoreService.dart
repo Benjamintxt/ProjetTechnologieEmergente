@@ -10,7 +10,7 @@ class FirestoreService {
         await _firestore.collection('demandes').get();
     return querySnapshot.docs;
   }
-
+  //ajoute une demande dans la base de données
   Future<void> addDocument(String inputText, dynamic prediction, String importanceLevel) async {
     String id = _firestore.collection('demandes').doc().id;
     Map<String, dynamic> data = {
@@ -23,7 +23,7 @@ class FirestoreService {
 
     await _firestore.collection('demandes').doc(id).set(data);
   }
-
+  //marque une demande comme traitée
   Future<void> demandeTraitee(String documentId) async {
     await _firestore.collection('demandes').doc(documentId).update({
       'demandeTraitee': true,

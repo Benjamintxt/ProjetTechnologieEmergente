@@ -13,7 +13,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
   final TextEditingController _textInputController = TextEditingController();
   List<Map<String, dynamic>> _results = [];
   late String importanceLevel = '';
-
+  //fonction qui permet de classifier le type de demande
   Future<void> classifyText(String text) async {
     const apiKey = 'nWrwm3g8q4ZIWzDzCQZTbup9RCt87oFsu7yLt7XB'; 
     const apiUrl = 'https://api.cohere.ai/v1/classify';
@@ -82,7 +82,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
       print('Response body: ${response.body}');
     }
   }
-
+  //fonction qui permet de classifier le niveau d'importance de la demande
   Future<void> classifyImportance(String text) async {
     const apiKey = 'vHQrEVsnogMZoJpKjtVd0lIWoj3ctOqzvG2YownQ'; 
     const apiUrl = 'https://api.cohere.ai/v1/classify';
