@@ -11,6 +11,8 @@ class _ClassificationPageState extends State<ClassificationPage> {
   final FirestoreService _firestoreService = FirestoreService();
   late Map<String, List<DocumentSnapshot>> _complaintsByLabel = {};
   late String _selectedLabel;
+  bool _sortAscending = true; // true for ascending, false for descending
+
 
   @override
   void initState() {
@@ -19,27 +21,32 @@ class _ClassificationPageState extends State<ClassificationPage> {
     _selectedLabel = 'signalement urbain';
   }
 
-  Future<void> _loadComplaints() async {
-    List<DocumentSnapshot> complaints = await _firestoreService.getDocuments();
+Future<void> _loadComplaints() async {
+  List<DocumentSnapshot> complaints = await _firestoreService.getDocuments();
 
-    // Group complaints by label
-    _complaintsByLabel = {};
-    for (var complaint in complaints) {
-      final label = complaint['label'];
-      if (!_complaintsByLabel.containsKey(label)) {
-        _complaintsByLabel[label] = [];
-      }
-      _complaintsByLabel[label]!.add(complaint);
+  // Group complaints by label
+  _complaintsByLabel = {};
+  for (var complaint in complaints) {
+    final label = complaint['label'];
+    if (!_complaintsByLabel.containsKey(label)) {
+      _complaintsByLabel[label] = [];
     }
+    _complaintsByLabel[label]!.add(complaint);
+  }
 
+  // Sort complaints within each label group
+  _complaintsByLabel.forEach((label, complaints) {
     complaints.sort((a, b) {
       final importanceA = a['typeUrgence'];
       final importanceB = b['typeUrgence'];
-      return _compareImportance(importanceA, importanceB);
+      int result = _compareImportance(importanceA, importanceB);
+      return _sortAscending ? result : -result;
     });
+  });
 
-    setState(() {});
-  }
+  setState(() {});
+}
+
 
   int _compareImportance(String levelA, String levelB) {
     // Define the order of importance levels
@@ -81,6 +88,21 @@ class _ClassificationPageState extends State<ClassificationPage> {
       ),
       body: Column(
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("niveau d'urgence"),
+              IconButton(
+                icon: Icon(_sortAscending ? Icons.arrow_upward : Icons.arrow_downward),
+                onPressed: () {
+                  setState(() {
+                    _sortAscending = !_sortAscending;
+                    _loadComplaints();
+                  });
+                },
+              ),
+            ],
+          ),
           DropdownButton<String>(
             value: _selectedLabel,
             onChanged: (String? newValue) {
