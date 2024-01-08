@@ -119,6 +119,22 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
       {"text": "Graffiti sur les arrêts de bus", "label": "Peu urgent"},
       {"text": "Réparation nécessaire des trottoirs dans le centre-ville", "label": "Urgent"},
       {"text": "Création d'un festival artistique annuel", "label": "Peu urgent"},
+      {"text": "Fuite de gaz importante à l'intersection principale, risque d'explosion imminent", "label": "Très urgent"},
+      {"text": "Effondrement d'un immeuble abandonné, menace de danger public immédiat", "label": "Très urgent"},
+      {"text": "Incendie en cours dans le quartier résidentiel, évacuation immédiate nécessaire", "label": "Très urgent"},
+      {"text": "Écroulement d'un mur de soutènement le long de la route principale, bloquant la circulation", "label": "Très urgent"},
+      {"text": "Fuite de produits chimiques toxiques dans le parc, risque grave pour la santé publique", "label": "Très urgent"},
+      {"text": "Accident de la route avec plusieurs véhicules, nécessite une intervention d'urgence","label": "Très urgent"},
+      {"text": "Inondation dans le quartier, besoin immédiat d'assistance et d'évacuation","label": "Très urgent"},
+      {"text": "Panne d'électricité généralisée, impactant les services essentiels","label": "Urgent"},
+      {"text": "Rupture de canalisation d'eau principale, risque d'inondation des habitations", "label": "Très urgent"},
+      {"text": "Explosion entendue près de l'usine, nécessite une évaluation rapide des risques","label": "Urgent"},
+      {"text": "Éboulement sur la route de montagne, danger pour les automobilistes","label": "Très urgent"},
+      {"text": "Interruption du service d'urgence médicale, nécessite une résolution rapide","label": "Urgent"},
+      {"text": "Tremblement de terre ressenti, risque de dégâts structurels", "label": "Très urgent"},
+      {"text": "Déversement de produits chimiques dans la rivière, menace pour l'écosystème", "label": "Urgent"},
+      {"text": "Menace imminente de coupure d'alimentation en eau potable, impact sur la santé publique","label": "Urgent"}
+
     ];
 
     final requestBody = {
@@ -137,25 +153,24 @@ class _CustomerSupportPageState extends State<CustomerSupportPage> {
     );
 
       if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+        final Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+        print(data);
+        if (data.containsKey('classifications') && data['classifications'].isNotEmpty) {
+          final label = data['classifications'][0]['prediction'];
 
-      if (data.containsKey('classifications') && data['classifications'].isNotEmpty) {
-        final prediction = data['classifications'][0]['prediction'];
-
-        setState(() {
-          importanceLevel = prediction;
-        });
-
-        print(importanceLevel);
+          setState(() {
+            importanceLevel = label;
+          });
+          print(importanceLevel);
+        } else {
+          print('Error: Prediction not found or is null in the response.');
+          print('Full response body: ${response.body}');
+        }
       } else {
-        print('Error: Prediction not found or is null in the response.');
-        print('Full response body: ${response.body}');
+        // Handle error
+        print('Failed to classify importance. Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
       }
-    } else {
-      // Handle error
-      print('Failed to classify importance. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
-    }
   }
   
 

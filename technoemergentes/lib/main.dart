@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'CityMobis',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -54,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
+              // ignore: sort_child_properties_last
               child: Text('CityMobis'),
               decoration: BoxDecoration(
                 color: Colors.blue,
