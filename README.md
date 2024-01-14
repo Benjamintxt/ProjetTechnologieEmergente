@@ -36,8 +36,9 @@ Chaque demande est automatiquement évaluée en fonction de son niveau d'importa
 ## Prérequis
 1. Flutter
 2. Android Studio
+3. Visual Studio Code
 
-Les deux peuvent être installés en suivant le guide d'installation de Flutter suivant: https://docs.flutter.dev/get-started/install
+Les deux (1 et 2) peuvent être installés en suivant le guide d'installation de Flutter suivant: https://docs.flutter.dev/get-started/install
 Le guide explique également comment installer l'émulateur Android ou utiliser votre téléphone pour lancer l'application.
 
 Vous pouvez à tout moment vérifier si votre installation Flutter est complète en lançant la commande
@@ -59,8 +60,12 @@ flutter pub get
 ```
 
 ### Lançement de l'application
-Le lancement de l'application se fait via Visual Studio Code où vous pouvez choisir votre émulateur ou débogage USB d'un appareil physique (en bas à droite d'Android Studio).
-Sélectionnez le button "run" en haut à droite d'Android Studio.
+Le lancement de l'application se fait via Visual Studio Code où vous pouvez choisir votre émulateur ou débogage USB d'un appareil physique (en bas à droite d'Visual Studio Code).
+Effectuez la ligne de commande suivante lorsque que vous êtes dans le dossier "technoemergentes":
+
+```shell
+flutter run
+```
 
 ## Équipe de développement du projet d'implementation des demandes citoyennes
 
