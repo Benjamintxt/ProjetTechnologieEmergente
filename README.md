@@ -32,6 +32,41 @@ Chaque demande est automatiquement évaluée en fonction de son niveau d'importa
 
 3. **Classement par type et priorisation Automatique :** CityMobis attribuera automatiquement un niveau d'importance et classera par type à chaque demande pour faciliter la gestion par la municipalité.
 
+
+## Prérequis
+1. Flutter
+2. Android Studio
+3. Visual Studio Code
+
+Les deux (1 et 2) peuvent être installés en suivant le guide d'installation de Flutter suivant: https://docs.flutter.dev/get-started/install
+Le guide explique également comment installer l'émulateur Android ou utiliser votre téléphone pour lancer l'application.
+
+Vous pouvez à tout moment vérifier si votre installation Flutter est complète en lançant la commande
+```shell
+flutter doctor -v
+```
+À noter qu'il n'est pas nécessaire de faire la configuration pour pouvoir développer des application Flutter pour le web (Chrome) et Windows.
+
+## Configuration du projet
+### Clone du projet
+Le projet est à cloner avec la commande suivante:
+```shell
+git clone https://github.com/Benjamintxt/ProjetTechnologieEmergente.git
+```
+### Installation des dépendances
+Une fois le projet cloné, on peut ouvrir le projet dans Android Studio ou dans un terminal et installer les dépendances avec la commande 
+```shell
+flutter pub get
+```
+
+### Lançement de l'application
+Le lancement de l'application se fait via Visual Studio Code où vous pouvez choisir votre émulateur ou débogage USB d'un appareil physique (en bas à droite d'Visual Studio Code).
+Effectuez la ligne de commande suivante lorsque que vous êtes dans le dossier "technoemergentes":
+
+```shell
+flutter run
+```
+
 ## Équipe de développement du projet d'implementation des demandes citoyennes
 
 Benjamin Casey & Lambert Kasaev
